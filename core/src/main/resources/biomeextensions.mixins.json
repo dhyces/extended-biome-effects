@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.dhyces.biomeextensions.mixin",
+  "refmap": "extendedbiomeeffects.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "api.ApiAccessMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
