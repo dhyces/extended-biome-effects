@@ -1,7 +1,7 @@
 package dev.dhyces.biomeextensions;
 
 import dev.dhyces.biomeextensions.api.ApiAccessImpl;
-import dev.dhyces.biomeextensions.extension.BiomeExtensionType;
+import dev.dhyces.biomeextensions.extension.ExtensionElementType;
 import dev.dhyces.biomeextensions.extension.effects.FogExtension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
@@ -28,7 +28,7 @@ public class ExtendedBiomeEffectsClient {
         RegistryAccess registryAccess = client().level.registryAccess();
         Holder<Biome> currentBiome = client().level.getBiome(client().player.blockPosition());
         FogExtension extension = ApiAccessImpl.INSTANCE.getExtensionsFor(registryAccess, currentBiome)
-                .map(extensionCollection -> extensionCollection.get(BiomeExtensionType.FOG))
+                .map(extensionCollection -> extensionCollection.get(ExtensionElementType.FOG))
                 .orElse(null);
         if (extension == null) {
             return;

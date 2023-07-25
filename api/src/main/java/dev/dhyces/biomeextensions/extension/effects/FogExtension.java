@@ -2,10 +2,10 @@ package dev.dhyces.biomeextensions.extension.effects;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.dhyces.biomeextensions.extension.BiomeExtension;
-import dev.dhyces.biomeextensions.extension.BiomeExtensionType;
+import dev.dhyces.biomeextensions.extension.ExtensionElement;
+import dev.dhyces.biomeextensions.extension.ExtensionElementType;
 
-public class FogExtension implements BiomeExtension {
+public class FogExtension implements ExtensionElement {
     public static final Codec<FogExtension> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     Codec.FLOAT.fieldOf("far_plane").forGetter(fogExtension -> fogExtension.farPlane),
@@ -30,7 +30,7 @@ public class FogExtension implements BiomeExtension {
     }
 
     @Override
-    public BiomeExtensionType<?> getType() {
-        return BiomeExtensionType.FOG;
+    public ExtensionElementType<?> getType() {
+        return ExtensionElementType.FOG;
     }
 }

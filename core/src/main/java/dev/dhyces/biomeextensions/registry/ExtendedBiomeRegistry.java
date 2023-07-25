@@ -1,7 +1,7 @@
 package dev.dhyces.biomeextensions.registry;
 
 import dev.dhyces.biomeextensions.ApiAccess;
-import dev.dhyces.biomeextensions.extension.ExtensionCollection;
+import dev.dhyces.biomeextensions.extension.BiomeExtension;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DataPackRegistryEvent;
 
@@ -11,6 +11,6 @@ public class ExtendedBiomeRegistry {
     }
 
     private static void createRegistry(final DataPackRegistryEvent.NewRegistry event) {
-        event.dataPackRegistry(ApiAccess.EXTENSION_REGISTRY_KEY, ExtensionCollection.CODEC, ExtensionCollection.CODEC);
+        event.dataPackRegistry(ApiAccess.EXTENSION_REGISTRY_KEY, BiomeExtension.CODEC, BiomeExtension.CODEC);
     }
 }

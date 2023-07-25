@@ -4,8 +4,8 @@ import com.mojang.serialization.Codec;
 import dev.dhyces.biomeextensions.ApiEntrypoint;
 import dev.dhyces.biomeextensions.extension.effects.FogExtension;
 
-public interface BiomeExtensionType<T extends BiomeExtension> {
-    BiomeExtensionType<FogExtension> FOG = () -> FogExtension.CODEC;
+public interface ExtensionElementType<T extends ExtensionElement> {
+    ExtensionElementType<FogExtension> FOG = () -> FogExtension.CODEC;
 
     Codec<T> getCodec();
 
