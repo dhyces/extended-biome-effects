@@ -34,6 +34,8 @@ minecraft {
 
             mods {
                 testmod {
+                    source project(":api").sourceSets.main
+                    source project(":core").sourceSets.main
                     source sourceSets.main
                 }
             }
@@ -60,11 +62,13 @@ minecraft {
     }
 }
 
-sourceSets {
-    main {
-        resources { srcDir 'src/generated/resources' }
-    }
+mixin {
+    add sourceSets.main, "biomeextensions.refmap.json"
+
+    config 'biomeextensions.mixins.json'
 }
+
+sourceSets.main.resources.srcDir('src/generated/resources')
 
 repositories {
     mavenLocal()
@@ -80,28 +84,10 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
-tasks.named('processResources', ProcessResources).configure {
-    var replaceProperties = [
-            minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
-            forge_version       : forge_version, forge_version_range: forge_version_range,
-            loader_version_range: loader_version_range,
-            mod_id              : modid, mod_name: "Test Mod", mod_license: "ARR", mod_version: mod_version,
-            mod_authors         : mod_authors, mod_description: "Lorum ipsum", pack_format_number: pack_format_number,
-    ]
-    inputs.properties replaceProperties
-
-    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
-        expand replaceProperties + [project: project]
-    }
-}
-
-tasks.named('publish').configure {
-    dependsOn 'reobfJar'
-}
-
-java.withSourcesJar()
-
 tasks.named('jar', Jar).configure {
+    from(project(":api").sourceSets.main.allSource)
+    from(project(":core").sourceSets.main.allSource)
+
     manifest {
         attributes([
                 'Specification-Title'     : modid,
@@ -115,4 +101,24 @@ tasks.named('jar', Jar).configure {
     }
 
     finalizedBy 'reobfJar'
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    from(project(":api").sourceSets.main.resources)
+    from(project(":core").sourceSets.main.resources) {
+        exclude("**/META-INF/mods.toml")
+    }
+
+    var replaceProperties = [
+            minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version       : forge_version, forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range,
+            mod_id              : modid, mod_name: "Test Mod", mod_license: "ARR", mod_version: mod_version,
+            mod_authors         : mod_authors, mod_description: "Lorum ipsum", pack_format_number: pack_format_number,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
 }

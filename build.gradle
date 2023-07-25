@@ -29,6 +29,10 @@ subprojects {
         finalizedBy 'reobfJar'
     }
 
+    tasks.named('publish').configure {
+        dependsOn 'reobfJar'
+    }
+
     publishing {
         publications {
             mavenJava(MavenPublication) {

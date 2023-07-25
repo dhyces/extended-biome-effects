@@ -17,9 +17,10 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 sourceSets {
+    main
     datagen {
-        compileClasspath += main.compileClasspath
-        runtimeClasspath += main.runtimeClasspath
+        compileClasspath = main.compileClasspath + main.output
+        runtimeClasspath = main.runtimeClasspath + main.output
     }
 }
 
@@ -36,13 +37,15 @@ minecraft {
 
     runs {
         configureEach {
-            workingDirectory project.file('run')
+            workingDirectory rootProject.file('run')
+            ideaModule "${rootProject.name}.${project.name}.main"
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
             mods {
                 "${mod_id}" {
+                    source project(":api").sourceSets.main
                     source sourceSets.main
                 }
             }
@@ -65,6 +68,13 @@ minecraft {
             workingDirectory project.file('run')
 
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+
+            mods {
+                "${mod_id}" {
+                    source project(":api").sourceSets.main
+                    source sourceSets.datagen
+                }
+            }
         }
     }
 }
@@ -85,6 +95,14 @@ dependencies {
     implementation(project(":api"))
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+tasks.withType(JavaCompile) {
+    source(project(":api").sourceSets.main.allSource)
+}
+
+tasks.named('datagenClasses') {
+    dependsOn('compileDatagenJava', 'processResources')
 }
 
 tasks.named('jar', Jar).configure {
