@@ -101,10 +101,6 @@ tasks.withType(JavaCompile) {
     source(project(":api").sourceSets.main.allSource)
 }
 
-tasks.named('datagenClasses') {
-    dependsOn('compileDatagenJava', 'processResources')
-}
-
 tasks.named('jar', Jar).configure {
     manifest {
         attributes([
@@ -121,14 +117,23 @@ tasks.named('jar', Jar).configure {
     finalizedBy 'reobfJar'
 }
 
+var replaceProperties = [
+        minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+        forge_version       : forge_version, forge_version_range: forge_version_range,
+        loader_version_range: loader_version_range,
+        mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+        mod_authors         : mod_authors, mod_description: mod_description, pack_format_number: pack_format_number,
+]
+
 tasks.named('processResources', ProcessResources).configure {
-    var replaceProperties = [
-            minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
-            forge_version       : forge_version, forge_version_range: forge_version_range,
-            loader_version_range: loader_version_range,
-            mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-            mod_authors         : mod_authors, mod_description: mod_description, pack_format_number: pack_format_number,
-    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+tasks.named('processDatagenResources', ProcessResources).configure {
     inputs.properties replaceProperties
 
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
