@@ -1,7 +1,7 @@
 package dev.dhyces.biomeextensions.mixin.api;
 
 import dev.dhyces.biomeextensions.ApiAccess;
-import dev.dhyces.biomeextensions.api.ApiAccessImpl;
+import dev.dhyces.biomeextensions.impl.ApiAccessImpl;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(ApiAccess.class)
