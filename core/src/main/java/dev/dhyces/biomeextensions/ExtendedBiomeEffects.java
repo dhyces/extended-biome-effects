@@ -1,6 +1,6 @@
 package dev.dhyces.biomeextensions;
 
-import dev.dhyces.biomeextensions.api.ApiContainer;
+import dev.dhyces.biomeextensions.impl.ApiContainer;
 import dev.dhyces.biomeextensions.extension.BiomeExtensionRegistry;
 import dev.dhyces.biomeextensions.registry.ExtendedBiomeRegistry;
 import net.minecraft.resources.ResourceLocation;
