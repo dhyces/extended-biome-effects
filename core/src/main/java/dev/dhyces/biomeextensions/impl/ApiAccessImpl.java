@@ -1,8 +1,9 @@
-package dev.dhyces.biomeextensions.api;
+package dev.dhyces.biomeextensions.impl;
 
 import com.mojang.serialization.Codec;
 import dev.dhyces.biomeextensions.ApiAccess;
 import dev.dhyces.biomeextensions.extension.BiomeExtensionRegistry;
+import dev.dhyces.biomeextensions.extension.ExtensionElement;
 import dev.dhyces.biomeextensions.extension.ExtensionElementType;
 import dev.dhyces.biomeextensions.extension.BiomeExtension;
 import net.minecraft.core.Holder;
@@ -21,6 +22,11 @@ public class ApiAccessImpl implements ApiAccess {
         HolderLookup.RegistryLookup<BiomeExtension> registry = registryAccess.lookupOrThrow(ApiAccess.EXTENSION_REGISTRY_KEY);
         Optional<Holder.Reference<BiomeExtension>> extensionCollection = registry.get(ResourceKey.create(ApiAccess.EXTENSION_REGISTRY_KEY, biome.unwrapKey().get().location()));
         return extensionCollection.map(Holder.Reference::get);
+    }
+
+    @Override
+    public <T extends ExtensionElement> Optional<T> getExtensionsOfType(RegistryAccess registryAccess, Holder<Biome> biome, ExtensionElementType<T> type) {
+        return getExtensionsFor(registryAccess, biome).map(biomeExtension -> biomeExtension.get(type));
     }
 
     @Override

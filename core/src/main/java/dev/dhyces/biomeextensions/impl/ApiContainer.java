@@ -1,4 +1,4 @@
-package dev.dhyces.biomeextensions.api;
+package dev.dhyces.biomeextensions.impl;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
