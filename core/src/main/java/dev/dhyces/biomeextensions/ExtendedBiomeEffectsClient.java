@@ -1,5 +1,6 @@
 package dev.dhyces.biomeextensions;
 
+import com.mojang.blaze3d.shaders.FogShape;
 import dev.dhyces.biomeextensions.impl.ApiAccessImpl;
 import dev.dhyces.biomeextensions.extension.ExtensionElementType;
 import dev.dhyces.biomeextensions.extension.effects.FogExtension;
@@ -55,22 +56,26 @@ public class ExtendedBiomeEffectsClient {
         float targetNearPlane;
         float targetFarPlane;
         float delta;
+        FogShape shape;
         if (extension == null) {
             targetNearPlane = event.getNearPlaneDistance();
             targetFarPlane = event.getFarPlaneDistance();
             delta = 0.5f;
+            shape = event.getFogShape();
         } else {
             targetNearPlane = extension.getNearPlane();
             targetFarPlane = extension.getFarPlane();
             delta = extension.getDelta();
+            shape = extension.getShape().orElse(event.getFogShape());
         }
 
         float partialTick = (float) event.getPartialTick();
         interpolator.calc(partialTick, delta, func -> func.apply(targetNearPlane), func -> func.apply(targetFarPlane));
 
-        if (event.getNearPlaneDistance() != interpolator.getNearPlane() || event.getFarPlaneDistance() != interpolator.getFarPlane()) {
+        if (event.getNearPlaneDistance() != interpolator.getNearPlane() || event.getFarPlaneDistance() != interpolator.getFarPlane() || event.getFogShape() != shape) {
             event.setNearPlaneDistance(interpolator.getNearPlane());
             event.setFarPlaneDistance(interpolator.getFarPlane());
+            event.setFogShape(shape);
             event.setCanceled(true);
         }
     }
