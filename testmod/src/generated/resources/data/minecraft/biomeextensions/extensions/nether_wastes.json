@@ -1,0 +1,9 @@
+{
+  "effects": [
+    {
+      "type": "biomeextensions:fog",
+      "far_plane": 999.0,
+      "near_plane": 0.0
+    }
+  ]
+}
