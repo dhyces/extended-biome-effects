@@ -32,18 +32,4 @@ subprojects {
     tasks.named('publish').configure {
         dependsOn 'reobfJar'
     }
-
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                groupId project.mod_group_id
-                artifactId project.archivesBaseName
-                version project.version
-                from components.java
-                pom.withXml {
-                    asNode().remove(asNode().dependencies)
-                }
-            }
-        }
-    }
 }

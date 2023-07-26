@@ -7,11 +7,11 @@ plugins {
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
-version = "${minecraft_version}-${mod_version}"
+version = "${mod_version}"
 group = mod_group_id
 
 base {
-    archivesName = "${mod_id}-forge"
+    archivesName = "${mod_id}-${minecraft_version}-forge-api"
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -38,6 +38,10 @@ dependencies {
 
 
 tasks.named('jar', Jar).configure {
+    from(rootProject.file("LICENSE")) {
+        rename { "${it}_${mod_id}" }
+    }
+
     manifest {
         attributes([
                 'Specification-Title'     : mod_id,
@@ -53,17 +57,16 @@ tasks.named('jar', Jar).configure {
     finalizedBy 'reobfJar'
 }
 
-tasks.named('processResources', ProcessResources).configure {
-    var replaceProperties = [
-            minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
-            forge_version       : forge_version, forge_version_range: forge_version_range,
-            loader_version_range: loader_version_range,
-            mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-            mod_authors         : mod_authors, mod_description: mod_description, pack_format_number: pack_format_number,
-    ]
-    inputs.properties replaceProperties
-
-    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
-        expand replaceProperties + [project: project]
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.mod_group_id
+            artifactId project.archivesBaseName
+            version project.version
+            from components.java
+            pom.withXml {
+                asNode().remove(asNode().dependencies)
+            }
+        }
     }
 }
