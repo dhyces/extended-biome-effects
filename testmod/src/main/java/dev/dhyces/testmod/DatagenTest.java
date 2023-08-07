@@ -3,7 +3,8 @@ package dev.dhyces.testmod;
 import dev.dhyces.biomeextensions.ApiAccess;
 import dev.dhyces.biomeextensions.RegistryHelper;
 import dev.dhyces.biomeextensions.extension.BiomeExtension;
-import dev.dhyces.biomeextensions.extension.effects.FogExtension;
+import dev.dhyces.biomeextensions.extension.effects.BaseFogExtension;
+import dev.dhyces.biomeextensions.extension.effects.TerrainFogExtension;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.DataGenerator;
@@ -28,7 +29,8 @@ public class DatagenTest {
 
         RegistrySetBuilder builder = new RegistrySetBuilder()
                 .add(ApiAccess.EXTENSION_REGISTRY_KEY, pContext -> {
-                    pContext.register(RegistryHelper.registryKey(new ResourceLocation("nether_wastes")), BiomeExtension.single(new FogExtension(0, 999, 999f)));
+                    pContext.register(RegistryHelper.registryKey(new ResourceLocation("nether_wastes")), BiomeExtension.single(new TerrainFogExtension(0, 999)));
+                    pContext.register(RegistryHelper.registryKey(new ResourceLocation("plains")), BiomeExtension.single(new TerrainFogExtension(0, 60)));
                 });
 
         generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, builder, Set.of("minecraft")));

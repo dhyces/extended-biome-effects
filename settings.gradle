@@ -17,5 +17,5 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.5.0'
 }
 
-rootProject.name = "extended-biome-effects"
+rootProject.name = "biome-extensions"
 include(":api", ":core", ":testmod")

@@ -2,7 +2,7 @@
   "effects": [
     {
       "type": "biomeextensions:terrain_fog",
-      "far_plane": 999.0,
+      "far_plane": 60.0,
       "near_plane": 0.0
     }
   ]

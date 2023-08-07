@@ -3,7 +3,7 @@ package dev.dhyces.biomeextensions.impl;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import dev.dhyces.biomeextensions.ApiEntrypoint;
-import dev.dhyces.biomeextensions.ExtendedBiomeEffects;
+import dev.dhyces.biomeextensions.BiomeExtensionsMod;
 import net.minecraftforge.fml.ModList;
 
 import java.lang.reflect.InvocationTargetException;
@@ -20,8 +20,8 @@ public class ApiContainer {
 
     private void load() {
         ModList.get().getMods().forEach(modInfo -> {
-            if (modInfo.getModProperties().containsKey(ExtendedBiomeEffects.MODID)) {
-                if (modInfo.getModProperties().get(ExtendedBiomeEffects.MODID) instanceof String qualifiedEntrypoint) {
+            if (modInfo.getModProperties().containsKey(BiomeExtensionsMod.MODID)) {
+                if (modInfo.getModProperties().get(BiomeExtensionsMod.MODID) instanceof String qualifiedEntrypoint) {
                     try {
                         Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass(qualifiedEntrypoint);
                         if (Set.of(clazz.getInterfaces()).contains(ApiEntrypoint.class)) {

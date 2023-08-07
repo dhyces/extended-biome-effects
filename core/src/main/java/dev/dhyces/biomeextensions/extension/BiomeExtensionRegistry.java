@@ -4,7 +4,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.mojang.serialization.Codec;
 import dev.dhyces.biomeextensions.ApiEntrypoint;
-import dev.dhyces.biomeextensions.ExtendedBiomeEffects;
+import dev.dhyces.biomeextensions.BiomeExtensionsMod;
 import dev.dhyces.biomeextensions.util.ModResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 
@@ -15,7 +15,7 @@ public class BiomeExtensionRegistry {
 
     public static void init() {
         ExtensionElementType.internalBootstrap(BiomeExtensionRegistry::conductInternalRegistration);
-        ExtendedBiomeEffects.API_CONTAINER.forEach((modid, apiEntrypoint) -> {
+        BiomeExtensionsMod.API_CONTAINER.forEach((modid, apiEntrypoint) -> {
             apiEntrypoint.registerTypes(new ApiEntrypoint.EffectTypeRegister() {
                 @Override
                 public <T extends ExtensionElement> ExtensionElementType<T> register(String id, ExtensionElementType<T> type) {
@@ -26,7 +26,7 @@ public class BiomeExtensionRegistry {
     }
 
     private static <T extends ExtensionElement> ExtensionElementType<T> conductInternalRegistration(String id, ExtensionElementType<T> type) {
-        return BiomeExtensionRegistry.register(ExtendedBiomeEffects.id(id), type);
+        return BiomeExtensionRegistry.register(BiomeExtensionsMod.id(id), type);
     }
 
     public static <T extends ExtensionElement> ExtensionElementType<T> register(ResourceLocation id, ExtensionElementType<T> type) {

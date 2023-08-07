@@ -10,8 +10,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 
-@Mod(ExtendedBiomeEffects.MODID)
-public class ExtendedBiomeEffects {
+@Mod(BiomeExtensionsMod.MODID)
+public class BiomeExtensionsMod {
     public static final String MODID = "biomeextensions";
     public static ResourceLocation id(String id) {
         return new ResourceLocation(MODID, id);
@@ -19,7 +19,7 @@ public class ExtendedBiomeEffects {
 
     public static final ApiContainer API_CONTAINER = new ApiContainer();
 
-    public ExtendedBiomeEffects() {
+    public BiomeExtensionsMod() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 
@@ -28,7 +28,7 @@ public class ExtendedBiomeEffects {
         ExtendedBiomeRegistry.init(modBus);
 
         if (FMLLoader.getDist().isClient()) {
-            ExtendedBiomeEffectsClient.init(modBus, forgeBus);
+            BiomeExtensionsModClient.init(modBus, forgeBus);
         }
     }
 }
