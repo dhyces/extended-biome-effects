@@ -26,6 +26,10 @@ public class BiomeExtension {
         return new BiomeExtension(builder.build());
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     @Nullable
     public <T extends ExtensionElement> T get(ExtensionElementType<T> type) {
         return cast(storage.get(type));
@@ -43,11 +47,11 @@ public class BiomeExtension {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> T cast(Object o) {
+    private static <T> T cast(Object o) {
         return (T)o;
     }
 
-    public class Builder {
+    public static class Builder {
         private BiomeExtension backing;
 
         public Builder() {
